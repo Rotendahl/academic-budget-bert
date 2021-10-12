@@ -266,8 +266,9 @@ def main():
     #
     # In distributed training, the .from_pretrained methods guarantee that only one local process can concurrently
     # download model & vocab.
-
-    pretrain_run_args = json.load(open(f"{model_args.model_name_or_path}/args.json", "r"))
+    pretrain_run_args = {}
+    if os.path.exists(f"{model_args.model_name_or_path}/args.json"):
+        pretrain_run_args = json.load(open(f"{model_args.model_name_or_path}/args.json", "r"))
 
     def get_correct_ds_args(pretrain_run_args):
         ds_args = Namespace()
