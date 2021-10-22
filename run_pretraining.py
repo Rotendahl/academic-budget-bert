@@ -258,12 +258,7 @@ def train(
 
     logger.info(f"Epoch {index}: check if time to save a fine-tune checkpoint")
     if (
-        is_time_to_finetune(
-            get_now(),
-            args.exp_start_marker,
-            args.finetune_time_markers,
-            args.total_training_time,
-        )
+        index % 500 == 0
         and master_process(args)
         and scale_counter_at_1 < args.scale_cnt_limit
     ):
@@ -289,7 +284,7 @@ def should_run_validation(time_diff, args, epoch):
     else:
         should_do_validation = epoch % args.validation_epochs == 0
 
-    return should_do_validation
+    return True
 
 
 def report_metrics(args, lr, loss, step, data_sample_count):
